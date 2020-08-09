@@ -5,7 +5,7 @@ class Cell {
 		this.j = j;
 		this.revealed = false;
 		this.x = i * w;
-		this.y = j * w;
+		this.y = j * w + topSpace;
 		this.w = w;
 		this.neighborCount = 0;
 		this.checked = false;
@@ -35,8 +35,10 @@ class Cell {
 
 	drawCellBackground(color) {
 		fill(color);
-		stroke(0);
+		stroke(150);
+		strokeWeight(2)
 		rect(this.x, this.y, this.w, this.w);
+		strokeWeight(1)
 	}
 
 	drawNeighborCount() {
@@ -67,21 +69,20 @@ class Cell {
 		stroke(0);
 		strokeWeight(2);
 		line(this.x + this.w / 2, this.y + this.w * 0.8, this.x + this.w / 2, this.y + this.w * 0.2);
-		line(this.x + this.w *0.8, this.y + this.w /2, this.x + this.w *0.2, this.y + this.w /2);
-		line(this.x + this.w*0.28, this.y+ this.w*0.28, this.x + w*0.72, this.y + w*0.72);
-		line(this.x + this.w*0.28, this.y + w*0.72, this.x + w*0.72, this.y+ this.w*0.28);
+		line(this.x + this.w * 0.8, this.y + this.w / 2, this.x + this.w * 0.2, this.y + this.w / 2);
+		line(this.x + this.w * 0.28, this.y + this.w * 0.28, this.x + w * 0.72, this.y + w * 0.72);
+		line(this.x + this.w * 0.28, this.y + w * 0.72, this.x + w * 0.72, this.y + this.w * 0.28);
 		strokeWeight(1);
 		noStroke();
 		fill(0);
 		ellipse(this.x + this.w / 2, this.y + this.w / 2, this.w / 2);
 		fill(255);
 		ellipse(this.x + this.w / 2.5, this.y + this.w / 2.5, this.w / 6);
-		
 	}
 
 	show() {
 		if (this.revealed) {
-			this.drawCellBackground(200);
+			this.drawCellBackground(180);
 			if (this.checked) {
 				this.drawCheckedFlag();
 				if (isGameOver && !this.solved) {
@@ -96,11 +97,12 @@ class Cell {
 				}
 			}
 		}
-		if(isGameOver&&this.last){
-			this.drawCellBackground([255,0,0]);
-			this.drawBomb()
+		if (isGameOver && this.last) {
+			this.drawCellBackground([255, 0, 0]);
+			this.drawBomb();
 		}
 	}
+
 	contains(x, y) {
 		return x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.w;
 	}
@@ -124,8 +126,8 @@ class Cell {
 		}
 		this.revealed = true;
 		this.fixed = true;
-		
-		if(this.bomb){
+
+		if (this.bomb) {
 			this.last = true;
 		}
 

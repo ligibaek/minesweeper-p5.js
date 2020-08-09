@@ -11,14 +11,17 @@ function make2DArray(cols, rows) {
 let grid;
 let cols, rows;
 const w = 40;
-const totalBombs = 10;
+let size = 400;
+const totalBombs = size/25;
 let isGameOver = false;
 let win = false;
+let topSpace = 0;
+
 
 function setup() {
-	createCanvas(400, 400);
+	createCanvas(size, size+topSpace);
 	cols = Math.floor(width / w);
-	rows = Math.floor(height / w);
+	rows = Math.floor((height - topSpace) / w);
 	grid = make2DArray(cols, rows);
 
 	for (let i = 0; i < cols; i++) {
@@ -51,11 +54,12 @@ function setup() {
 }
 
 function draw() {
-	background(180);
+	background(200);
 	for (let i = 0; i < width / w; i++) {
-		stroke(0);
-		line(i * w, 0, i * w, height);
-		line(0, i * w, width, i * w);
+		stroke(100);
+		strokeWeight(2)
+		line(i * w, topSpace, i * w, height);
+		line(0, i * w + topSpace, width, i * w + topSpace);
 	}
 	grid.forEach((row) => row.forEach((cell) => cell.show()));
 }
