@@ -124,6 +124,10 @@ class Cell {
 		}
 		this.revealed = true;
 		this.fixed = true;
+		
+		if(this.bomb){
+			this.last = true;
+		}
 
 		if (this.neighborCount === 0) {
 			//flood fill

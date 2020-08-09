@@ -1,4 +1,4 @@
-document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener('contextmenu', (event) => event.preventDefault());
 
 function make2DArray(cols, rows) {
 	const arr = new Array(cols);
@@ -26,7 +26,7 @@ function setup() {
 			grid[i][j] = new Cell(i, j, w);
 		}
 	}
-	
+
 	let options = [];
 	for (let i = 0; i < cols; i++) {
 		for (let j = 0; j < rows; j++) {
@@ -52,37 +52,40 @@ function setup() {
 
 function draw() {
 	background(180);
-	for (let i = 0; i < width/w; i++) {
-		stroke(0)
-		line(i*w,0,i*w,height)
-		line(0,i*w,width,i*w)
-		
+	for (let i = 0; i < width / w; i++) {
+		stroke(0);
+		line(i * w, 0, i * w, height);
+		line(0, i * w, width, i * w);
 	}
 	grid.forEach((row) => row.forEach((cell) => cell.show()));
 }
 
 function gameOver() {
 	isGameOver = true;
-	grid.forEach((row) => row.forEach((cell) => {
-		if(cell.bomb){
-			cell.revealed = true
-		}
-		cell.fixed = true;
-		
-	}));
+	grid.forEach((row) =>
+		row.forEach((cell) => {
+			if (cell.bomb) {
+				cell.revealed = true;
+			}
+			cell.fixed = true;
+		})
+	);
 }
+
 function gameWin() {
-    let clearCnt = 0;
-    grid.forEach((row) => row.forEach((cell) => {
-        if(cell.solved){
-            clearCnt++;
-        }
-    }));
-    if(totalBombs === clearCnt) {
+	let clearCnt = 0;
+	grid.forEach((row) =>
+		row.forEach((cell) => {
+			if (cell.solved) {
+				clearCnt++;
+			}
+		})
+	);
+	if (totalBombs === clearCnt) {
 		console.log('win');
-		win =true;
-        gameOver();
-    }
+		win = true;
+		gameOver();
+	}
 }
 
 function mousePressed() {
@@ -90,18 +93,16 @@ function mousePressed() {
 		for (let j = 0; j < rows; j++) {
 			if (grid[i][j].contains(mouseX, mouseY)) {
 				if (mouseButton === RIGHT) {
-                    grid[i][j].check();
-                    gameWin();
-                }
-                if (mouseButton === LEFT) {
-                    grid[i][j].reveal();
+					grid[i][j].check();
+					gameWin();
+				}
+				if (mouseButton === LEFT) {
+					grid[i][j].reveal();
 
-                    if (grid[i][j].bomb) {
-						grid[i][j].last = true;
-                        gameOver();
-                    }
-                }
-				
+					if (grid[i][j].bomb) {
+						gameOver();
+					}
+				}
 			}
 		}
 	}
